@@ -1,0 +1,173 @@
+#include <Arduino.h>
+
+#include <SPI.h>
+#include <SD.h>
+
+File myFile;
+
+void setup() {
+  // Inicializa la comunicación serial
+  Serial.begin(115200);
+  while (!Serial);
+  SPI.setModule(0);
+  Serial.print("Initializing SD card...");
+  // On the Ethernet Shield, CS is pin 4. It's set as an output by default.
+  // Note that even if it's not used as the CS pin, the hardware SS pin
+  // (10 on most Arduino boards, 53 on the Mega) must be left as an output
+  // or the SD library functions will not work.
+  pinMode(PA_3, OUTPUT);
+
+   if (!SD.begin(PA_3)) 
+   {
+      Serial.println("initialization failed!");
+      return;
+    }
+    Serial.println("initialization done.");
+
+  
+  // Imprime el menú
+  Serial.println("Seleccione una opción:");
+  Serial.println("1. Opción A");
+  Serial.println("2. Opción B");
+  Serial.println("3. Opción C");
+  Serial.println("4. Opción D (Crear Dibujo palabra LOVE)");
+  Serial.println("5. Opción E (Crear Dibujo corazón enojado)");
+  Serial.println("6. Opción F (Leer Dibujo)");
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char opcion = Serial.read(); // Lee el carácter ingresado
+  
+    
+    // Lógica para determinar la opción seleccionada
+    if (opcion == '1'){
+      Serial.println("Has seleccionado la opción A");
+      // re-open the file for reading:
+      myFile = SD.open("Caballo.txt");
+      if (myFile) {
+        Serial.println("Caballo.txt:");
+    
+        // read from the file until there's nothing else in it:
+        while (myFile.available()) {
+          Serial.write(myFile.read());
+        }
+        // close the file:
+        myFile.close();
+      } else {
+        // if the file didn't open, print an error:
+        Serial.println("error opening Caballo.txt");
+      }}
+    else if (opcion == '2'){
+      Serial.println("Has seleccionado la opción B");
+      // re-open the file for reading:
+      myFile = SD.open("Scorpion.txt");
+      if (myFile) {
+        Serial.println("Scorpion.txt:");
+    
+        // read from the file until there's nothing else in it:
+        while (myFile.available()) {
+          Serial.write(myFile.read());
+        }
+        // close the file:
+        myFile.close();
+      } else {
+        // if the file didn't open, print an error:
+        Serial.println("error opening Scorpion.txt");
+      }
+      }
+    else if (opcion == '3') {
+      Serial.println("Has seleccionado la opción C");
+      // re-open the file for reading:
+      myFile = SD.open("Poste.txt");
+      if (myFile) {
+        Serial.println("Poste.txt:");
+    
+        // read from the file until there's nothing else in it:
+        while (myFile.available()) {
+          Serial.write(myFile.read());
+        }
+        // close the file:
+        myFile.close();
+      } else {
+        // if the file didn't open, print an error:
+        Serial.println("error opening Poste.txt");
+      }}
+      if (opcion == '4'){
+        Serial.println("Has seleccionado la opción D");     
+        myFile = SD.open("dibujo.txt", FILE_WRITE);
+        // if the file opened okay, write to it:
+        if (myFile) {
+          Serial.print("Writing to dibujo.txt...");
+          myFile.println("▀██▀─▄███▄─▀██─██▀██▀▀█");
+          myFile.println("─██─███─███─██─██─██▄█");
+          myFile.println("─██─▀██▄██▀─▀█▄█▀─██▀█");
+          myFile.println("▄██▄▄█▀▀▀─────▀──▄██▄▄█");
+          
+          // close the file:
+          myFile.close();
+          Serial.println("done.");
+        } else {
+          // if the file didn't open, print an error:
+          Serial.println("error opening dibujo.txt");
+        }}
+        else if (opcion == '6') {
+          Serial.println("Has seleccionado la opción F");
+          // re-open the file for reading:
+          myFile = SD.open("dibujo.txt");
+          if (myFile) {
+            Serial.println("dibujo.txt:");
+        
+            // read from the file until there's nothing else in it:
+            while (myFile.available()) {
+              Serial.write(myFile.read());
+            }
+            // close the file:
+            myFile.close();
+          } else {
+            // if the file didn't open, print an error:
+            Serial.println("error opening dibujo.txt");
+          }}
+          if (opcion == '5'){
+        Serial.println("Has seleccionado la opción E");     
+        myFile = SD.open("dibujo.txt", FILE_WRITE);
+        // if the file opened okay, write to it:
+        if (myFile) {
+          Serial.print("Writing to dibujo.txt...");
+          myFile.println("───────▓▓▓▓▓▓▓────────────▒▒▒▒▒▒");
+          myFile.println("─────▓▓▒▒▒▒▒▒▒▓▓────────▒▒░░░░░░▒▒");
+          myFile.println("───▓▓▒▒▒▒▒▒▒▒▒▒▒▓▓▒▒░░░░░░░░░░░░░░▒");
+          myFile.println("──▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░▒");
+          myFile.println("──▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░▒");
+          myFile.println("─▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░▒");
+          myFile.println("▓▓▒▒▒▒▒▒░░░░░░░░░░░▒▒░░▒▒▒▒▒▒▒▒▒▒▒░░░░░░▒");
+          myFile.println("▓▓▒▒▒▒▒▒▀▀▀▀▀███▄▄▒▒▒░░░▄▄▄██▀▀▀▀▀░░░░░░▒");
+          myFile.println("▓▓▒▒▒▒▒▒▒▄▀████▀███▄▒░▄████▀████▄░░░░░░░▒");
+          myFile.println("▓▓▒▒▒▒▒▒█──▀█████▀─▌▒░▐──▀█████▀─█░░░░░░▒");
+          myFile.println("▓▓▒▒▒▒▒▒▒▀▄▄▄▄▄▄▄▄▀▒▒░░▀▄▄▄▄▄▄▄▄▀░░░░░░░▒");
+          myFile.println("─▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░▒");
+          myFile.println("──▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░▒");
+          myFile.println("───▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▀▀▀░░░░░░░░░░░░░░▒");
+          myFile.println("────▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░▒▒");
+          myFile.println("─────▓▓▒▒▒▒▒▒▒▒▒▒▄▄▄▄▄▄▄▄▄░░░░░░░░▒▒");
+          myFile.println("──────▓▓▒▒▒▒▒▒▒▄▀▀▀▀▀▀▀▀▀▀▀▄░░░░░▒▒");
+          myFile.println("───────▓▓▒▒▒▒▒▀▒▒▒▒▒▒░░░░░░░▀░░░▒▒");
+          myFile.println("────────▓▓▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░▒▒");
+          myFile.println("──────────▓▓▒▒▒▒▒▒▒▒▒░░░░░░░░▒▒");
+          myFile.println("───────────▓▓▒▒▒▒▒▒▒▒▒░░░░░░▒▒");
+          myFile.println("─────────────▓▓▒▒▒▒▒▒░░░░░▒▒");
+          myFile.println("───────────────▓▓▒▒▒▒░░░▒▒");
+          myFile.println("────────────────▓▓▒░▒▒");
+          myFile.println("─────────────────▓▒░▒");
+          myFile.println("──────────────────▓▒");
+          
+          // close the file:
+          myFile.close();
+          Serial.println("done.");
+        } else {
+          // if the file didn't open, print an error:
+          Serial.println("error opening dibujo.txt");
+        }}
+        
+     }
+}
